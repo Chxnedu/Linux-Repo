@@ -1,0 +1,15 @@
+# a text file for me to store some git commands for recollection
+
+* git init (to initialize a local repo)
+
+* git add file file (adding a file or directory to be tracked by git)
+
+* git commit -m message (commiting your changes to git)
+
+* git remote add origin gitsshlink (for git to know which repo to push to)
+
+* git push (pushing to remote repo)
+
+* git branch (to check which branch youre on)
+
+* git checkout -b newbranchname 
