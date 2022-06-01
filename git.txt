@@ -24,4 +24,12 @@
 
 * git commit -am "message" (simultaneously adds and commits changes with your message)
 
-*   
+* git reset (to reset when you mistakenly add a change)
+
+* git reset HEAD~1 (to reset an accidental commit)
+
+* git log (to check your commit logs and get the id for a particular log)
+
+* git reset id (resetting a particular commit by its id)
+
+*      
