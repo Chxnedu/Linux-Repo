@@ -12,4 +12,6 @@
 
 * git branch (to check which branch youre on)
 
-* git checkout -b newbranchname 
+* git checkout -b newbranchname (to change branches..the -b param is to create a new branch) 
+
+* 
