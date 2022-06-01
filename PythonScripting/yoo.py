@@ -1,5 +1,5 @@
 #! /usr/bin/python3
 
-name='chxnedu'
+name='chxnedu oji'
 
 print('Yoo ' + name)
