@@ -22,4 +22,6 @@
 
 * git branch -d branchname (to delete a branch after merging)
 
+* git commit -am "message" (simultaneously adds and commits changes with your message)
+
 *   
