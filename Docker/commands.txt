@@ -16,4 +16,6 @@
 
 * docker run -p Hport:Iport image (starts a container of an image with the ports attached)
 
-* 
+* docker logs containerid/name (checking the container logs for debugging)
+
+*  
