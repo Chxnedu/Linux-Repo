@@ -18,4 +18,6 @@
 
 * docker logs containerid/name (checking the container logs for debugging)
 
+* docker run --name containername (give the container a specific name)
+
 *  
