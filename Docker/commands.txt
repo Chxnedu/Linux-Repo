@@ -28,6 +28,8 @@
 
 * docker run --network some-network -e SOMEVARIABLE (specifying environmental variables and network)
 
-*   
+* docker-compose -f file.yaml up (docker compose command to start some containers from a yaml file)
+
+* docker-compose -f file.yaml down (to stop the containers)   
 
   
