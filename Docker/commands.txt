@@ -22,6 +22,12 @@
 
 * docker exec -it containerid/name /bin/bash (open a terminal inside of your container...'it' is interactive terminal)
 
-* 
+* docker network ls (list all the docker networks)
+
+* docker network create name (create your own docker network)
+
+* docker run --network some-network -e SOMEVARIABLE (specifying environmental variables and network)
+
+*   
 
   
