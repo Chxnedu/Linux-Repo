@@ -1,0 +1,15 @@
+# commands I used to run a mongodb container and connect it to a mongo express ui container to create databases
+
+* docker pull mongo
+
+* docker pull mongo-express
+
+* docker network create mongo-network
+
+* docker run -d -p 27017:27017 --name mongodb --network mongo-network -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password mongo
+
+* docker run -d -p 8081:8081 --name mongoexpress --network mongo-network -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password -e ME_CONFIG_MONGODB_SERVER=mongodb mongo-express
+
+* docker logs mongoexpress
+
+
