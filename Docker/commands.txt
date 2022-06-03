@@ -1,0 +1,19 @@
+# text file containing various docker commands
+
+* docker pull image (pulls the image you specify from the docker repo)
+
+* docker run image (starts the container of that image)
+
+* docker images (checks the images you have installed locally)
+
+* docker ps (check for running containers)
+
+* dokcer run -d redis (to run the container in a detached mode)
+
+* docker stop containerid (stop a running container with its id)
+
+* docker start containerid (start a stopped container with its id)
+
+* docker run -p Hport:Iport image (starts a container of an image with the ports attached)
+
+* 
