@@ -1,0 +1,12 @@
+# explaining how to create your own docker/container repo
+
+* you use aws ecr for your repo. create a repo on aws, have aws cli on your machine already
+configured and set up. follow the commands aws gives you
+
+* to run your docker image on a prod server, youll have to pull it from the private
+repo its on. to do this, edit your compose file containing the other containers your
+app needs and add your container to it with the image being the uri from aws.
+this docker compose file is now used to deploy your application and its services on the 
+prod server
+and remember to run your image from aws, youll need to be logged in on the prod server
+so follow the steps above to do that.
