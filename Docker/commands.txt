@@ -35,3 +35,5 @@
 * docker rm containerid (to remove a container)
 
 * docker rmi containerid (to remove an image)  
+
+* docker build -t myapp:1.0 ./ (command to build a docker image. -t to specify the name of the image and the other param to specify the path to the dockerfile)
