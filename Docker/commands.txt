@@ -32,4 +32,6 @@
 
 * docker-compose -f file.yaml down (to stop the containers)   
 
-  
+* docker rm containerid (to remove a container)
+
+* docker rmi containerid (to remove an image)  
