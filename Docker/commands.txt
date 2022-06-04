@@ -20,7 +20,7 @@
 
 * docker run --name containername (give the container a specific name)
 
-* docker exec -it containerid/name /bin/bash (open a terminal inside of your container...'it' is interactive terminal)
+* docker exec -it containerid/name /bin/bash or bin/sh (open a terminal inside of your container...'it' is interactive terminal)
 
 * docker network ls (list all the docker networks)
 
