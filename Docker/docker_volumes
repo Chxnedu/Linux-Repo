@@ -1,0 +1,13 @@
+# how to add volume to a docker container for data persistence
+
+* to add a volume to a docker container, you have to specify it in the docker compose
+file. eg:
+
+volumes:
+    db-data(volume name):/path/to/data(check online for default path)
+
+* then after specifying all the running services, you add a volume param again
+volumes:
+   db-data:
+      driver: local
+
