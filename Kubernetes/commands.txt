@@ -1,0 +1,19 @@
+# kubectl and minikube commands
+
+* minikube start (to start the cluster)
+
+* minikube status (check the status of running cluster)
+
+* kubectl get nodes/pods/services/deployments (checking the status of those items)
+
+* kubectl create deployment deploymentname --image=image (to create a deployment that will then create a pod)
+
+* kubectl edit deployment deploymentname (you can use this to edit a deployment and do stuff like change the image)
+
+* kubectl logs podname (for checking the logs of a pod)
+
+* kubectl describe pod podname (to show whats happening inside the pod)
+
+* kubectl exec -it podname --bin/bash or sh (opening a terminal inside a pod)
+
+* kubectl delete deployment deploymentname (delete a deployment which in turn deletes the pods and replicas)
