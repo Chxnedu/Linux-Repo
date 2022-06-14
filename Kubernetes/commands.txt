@@ -17,3 +17,11 @@
 * kubectl exec -it podname --bin/bash or sh (opening a terminal inside a pod)
 
 * kubectl delete deployment deploymentname (delete a deployment which in turn deletes the pods and replicas)
+
+* kubectl apply -f filename.yaml (create a deployment from a config file)
+
+* kubectl get pod -o wide (to see more info like ip addresses)
+
+* kubectl delete -f filename.yaml (to delete a deployment/service using the config file)
+
+* 
