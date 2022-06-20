@@ -24,4 +24,13 @@
 
 * kubectl delete -f filename.yaml (to delete a deployment/service using the config file)
 
-* 
+* kubectl create namespace my-namespace (to create your own namespace)
+
+* kubectl apply -f config.yaml --namespace=my-namespace (creating a resource in a namespace)
+# you can also add namespace: my-namespace in the config file under metadata
+
+* kubectl get configmap -n my-namespace (to get a configmap in a particular namespace. can also be used for other resources)
+
+* kubens my-namespace (used to change the default namespace to what you want)
+
+*  
