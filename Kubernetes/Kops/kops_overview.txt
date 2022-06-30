@@ -7,4 +7,10 @@
 Now that kops is installed and configured, to create your cluster config, use this command
 kops create cluster --name=kubevpro.chxnedu.com --state=s3://vprofile-kops-chxn --zones=us-east-1a,us-east-1b --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=kubevpro.chxnedu.com
 
+kops update cluster --name=kubevpro.chxnedu.com --yes
+this is to actually create the cluster
+
 You can configure that command as it pertains to your workload
+
+export KOPS_STATE_STORE=s3://kops-state-storage-cluster
+Use that command so that you dont keep adding the state to every kops command
