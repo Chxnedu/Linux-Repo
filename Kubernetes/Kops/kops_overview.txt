@@ -1,0 +1,10 @@
+# kops is a production grade k8s tool for aws. To get started with kops, create the following:
+- an s3 bucket to store the state of your cluster
+- create a route53 hosted zone with a subdomain of your choosing, then add the NS records to your domain
+- create an iam user for kops and grant admin privileges coz it'll be using a lot of services
+- an ubuntu server ec2 instance where you'll install kops, awscli, kubectl
+
+Now that kops is installed and configured, to create your cluster config, use this command
+kops create cluster --name=kubevpro.chxnedu.com --state=s3://vprofile-kops-chxn --zones=us-east-1a,us-east-1b --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=kubevpro.chxnedu.com
+
+You can configure that command as it pertains to your workload
