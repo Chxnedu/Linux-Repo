@@ -1,7 +1,7 @@
 #! /bin/bash
 # script to setup your kops server
 
-sudo apt update && apt install awscli
+sudo apt update && sudo apt install awscli
 
 aws --version
 
