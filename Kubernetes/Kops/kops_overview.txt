@@ -14,3 +14,6 @@ You can configure that command as it pertains to your workload
 
 export KOPS_STATE_STORE=s3://kops-state-storage-cluster
 Use that command so that you dont keep adding the state to every kops command
+
+kops export kubecfg --admin
+Solution to error "cannot list nodes, unauthorized"
