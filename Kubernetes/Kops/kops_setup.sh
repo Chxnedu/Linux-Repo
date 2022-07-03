@@ -21,6 +21,21 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 
 kops --help
 
+export KOPS_STATE_STORE=s3://vprofile-kops-chxn
+
+kops create cluster --name=kubevpro.chxnedu.com --state=s3://vprofile-kops-chxn --zones=us-east-1a,us-east-1b --node-count=2 --node-size=t2.micro --master-size=t2.micro --dns-zone=kubevpro.chxnedu.com
+
+git clone https://github.com/Chxnedu/Containerization-Projects.git
+
+kops update cluster --name=kubevpro.chxnedu.com --yes
+
+kops export kubecfg --admin
+
+sleep 900
+
+kops validate cluster
+
+kubectl get node
 
 
 
