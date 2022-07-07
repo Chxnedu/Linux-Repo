@@ -23,6 +23,4 @@ sudo ufw allow 8080
 
 sudo ufw status
 
-exit
-
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
