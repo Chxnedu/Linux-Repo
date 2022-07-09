@@ -1,0 +1,9 @@
+to setup a jenkins build agent node, run another vm and install jenkins
+
+then run the following commands;
+
+sudo adduser newuser #creating a new user
+
+sudo usermod -aG sudo newuser #adding the new user to the sudo group
+
+
