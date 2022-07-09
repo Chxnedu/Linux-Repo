@@ -15,5 +15,15 @@ pipeline {
 				sh 'go test ./...'
 			}
 		}
+		stage('Building our image') {
+			steps {
+				script {
+					app = docker.build("chxnedu/go-webapp-sample")
+				}
+			}
+		}
 	}
 }
+
+
+
