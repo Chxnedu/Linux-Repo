@@ -1,9 +1,23 @@
-to setup a jenkins build agent node, run another vm and install jenkins
+to setup a jenkins build agent node, run another vm and install java
 
 then run the following commands;
 
-sudo adduser newuser #creating a new user
+sudo useradd -m newuser #creating a new user
 
-sudo usermod -aG sudo newuser #adding the new user to the sudo group
+sudo -u newuser mkdir /home/newuser/.ssh
 
+after that, you have to create ssh keys on the master node 
 
+ssh-keygen
+
+go to the slave node and enter this;
+
+sudo -u newuser nano /home/newuser/.ssh/authorized_keys
+
+paste the public key into the file and save. now youre able to ssh into the slave from the master
+
+after that, run this command on the master;
+
+sudo cp ~/.ssh/known_hosts /var/lib/jenkins/.ssh
+
+then lastly, go to your jenkins ui and add the slave node
