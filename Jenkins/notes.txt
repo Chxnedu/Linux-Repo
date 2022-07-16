@@ -2,3 +2,4 @@
 - Role based authentication plugin for security
 - Slack Notification plugin
 - Maven plugin for maven projects 
+- Deploy to container plugin to help deploy your app
