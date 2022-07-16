@@ -1,0 +1,4 @@
+* After installing jenkins successfully, there are a few plugins worth installing
+- Role based authentication plugin for security
+- Slack Notification plugin
+- Maven plugin for maven projects 
