@@ -18,6 +18,8 @@
 
 * git push -u branchname (to push code on a new branch)
 
+* git push --set-upstream origin main (to set the main push branch)
+
 * git pull (used to pull merges made on github to your local machine)
 
 * git branch -d branchname (to delete a branch after merging)
