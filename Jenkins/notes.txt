@@ -3,3 +3,7 @@
 - Slack Notification plugin
 - Maven plugin for maven projects 
 - Deploy to container plugin to help deploy your app
+
+* when creating a pipeline that takes code from git, builds it and pushes it to an ansible server which will then push it to your tomcat server,
+there are a few plugins to install and a few configurations to be made after setting up your ansible server. First edit the /etc/ssh/sshd_config file to allow password auth for ssh so that jenkins will be able to connect with username and pass
+ 

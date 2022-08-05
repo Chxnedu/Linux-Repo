@@ -1,0 +1,11 @@
+# text file for the recommended plugins to use for various technologies with Jenkins
+
+* Slack Notification; for integration with slack
+
+* Maven Invoker; for maven jobs
+
+* Deploy to container; for deploying war files to servers 
+
+* Publish over SSH; to allow jenkins to publish artefacts over ssh, like for ansible use
+
+* 
