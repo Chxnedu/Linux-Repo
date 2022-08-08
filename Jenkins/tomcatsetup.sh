@@ -1,12 +1,12 @@
 #! /bin/bash
 # script to try and setup tomcat server
 
+sudo su -
+
 sudo apt update
 
 sudo apt install openjdk-11-jdk
 java -version
-
-sudo su -
 
 cd /opt
 wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.81/bin/apache-tomcat-8.5.81.tar.gz
