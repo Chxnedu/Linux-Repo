@@ -1,0 +1,13 @@
+# configuring jenkins with docker
+
+* youll need the Publis over SSH plugin
+
+* setup a docker host, then create a user "dockeradmin", add him to the docker group
+
+* edit the /etc/ssh/sshd_config file to allow username ssh authentication by editing PasswordAuthenticatio
+
+* in that users directory, create /opt/docker and create the dockerfile there
+
+* go to your jenkins and configure the ssh server in general settings
+
+* create the job, and pick publish over ssh in post build steps, then fill in the necessary params
