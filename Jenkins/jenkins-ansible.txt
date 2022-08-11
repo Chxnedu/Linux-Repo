@@ -1,0 +1,11 @@
+# notes for integrating jenkins with ansible
+
+* setup your ansible server on a vm
+
+* hook your tomcat server up with the ansible server
+
+* install the publish over ssh plugin on your jenkins and configure the ansible server in global settings
+
+* remember to edit the /etc/ssh/sshd_config file to allow password authentication
+
+* write your ansible playbook and modify your job to copy the artifacts and initiate the playbook
