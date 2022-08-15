@@ -10,14 +10,14 @@ sudo su -
 
 cd /opt
 wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.82/bin/apache-tomcat-8.5.82.tar.gz
-tar -zvxf apache-tomcat-8.5.81.tar.gz
-cd apache-tomcat-8.5.81
+tar -zvxf apache-tomcat-8.5.82.tar.gz
+cd apache-tomcat-8.5.82
 
 cd bin
 chmod +x startup.sh
 chmod +x shutdown.sh
-ln -s /opt/apache-tomcat-8.5.81/bin/startup.sh /usr/local/bin/tomcatup
-ln -s /opt/apache-tomcat-8.5.81/bin/shutdown.sh /usr/local/bin/tomcatdown
+ln -s /opt/apache-tomcat-8.5.82/bin/startup.sh /usr/local/bin/tomcatup
+ln -s /opt/apache-tomcat-8.5.82/bin/shutdown.sh /usr/local/bin/tomcatdown
 
 cd ..
 cd conf
@@ -197,8 +197,8 @@ cat <<EOT >> server.xml
 EOT
 
 # now comment out the value class using <!-- -->
-nano /opt/apache-tomcat-8.5.81/webapps/host-manager/META-INF/context.xml
-nano /opt/apache-tomcat-8.5.81/webapps/manager/META-INF/context.xml
+nano /opt/apache-tomcat-8.5.82/webapps/host-manager/META-INF/context.xml
+nano /opt/apache-tomcat-8.5.82/webapps/manager/META-INF/context.xml
 nano tomcat-users.xml
 
 tomcatup
