@@ -9,7 +9,7 @@ java -version
 sudo su -
 
 cd /opt
-wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.81/bin/apache-tomcat-8.5.81.tar.gz
+wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.82/bin/apache-tomcat-8.5.82.tar.gz
 tar -zvxf apache-tomcat-8.5.81.tar.gz
 cd apache-tomcat-8.5.81
 
