@@ -1,1 +1,1 @@
-filename = "game.txt"
+filename = "/home/kali/Documents/game.txt"

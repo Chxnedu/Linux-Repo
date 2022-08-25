@@ -8,4 +8,8 @@
 
 * terraform destroy (to destroy the infrastructure you created)
 
+* to use the output from one resource in another, you put it like this; ${resource_type.resource_name.attribute} 
+
+* you can explicitly make a resource depend on another resource by using the "depends_on = {}"
+
 * 
