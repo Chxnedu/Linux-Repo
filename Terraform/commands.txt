@@ -12,4 +12,12 @@
 
 * you can explicitly make a resource depend on another resource by using the "depends_on = {}"
 
-* 
+* terraform validate (used to validate the syntax of your cofig file)
+
+* terraform fmt (used to format your config file to make it more readable)
+
+* terraform show (used to display the current state of the infra created by terraform)
+
+* lifecycle rules can help you tell terraform not to delete a resource until the new resource has been created
+
+* data sources help you read content or resources that are not managed by terraform
