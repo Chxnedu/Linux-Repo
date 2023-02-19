@@ -16,6 +16,8 @@
 
 * docker run -p Hport:Iport image (starts a container of an image with the ports attached)
 
+* docker run --rm image (rm flag automatically removes the container when it exits)
+
 * docker logs containerid/name (checking the container logs for debugging)
 
 * docker run --name containername (give the container a specific name)
