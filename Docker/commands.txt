@@ -18,7 +18,7 @@
 
 * docker images (checks the images you have installed locally)
 
-* docker ps (check for running containers)
+* docker ps (check for running containers... use -a flag to see ALL containers)
 
 * docker stop containerid (stop a running container with its id)
 
