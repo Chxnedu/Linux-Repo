@@ -3,18 +3,13 @@
 * docker pull image (pulls the image you specify from the docker repo)
 
 * docker run image (starts the container of that image)
-
-* dokcer run -d redis (to run the container in a detached mode)
-
-* docker run -p Hport:Iport image (starts a container of an image with the ports attached)
-
-* docker run --rm image (rm flag automatically removes the container when it exits)
-
-* docker run --name containername (give the container a specific name)
-
-* docker run --network some-network -e SOMEVARIABLE (specifying environmental variables and network)
-
-* docker run -p 8080:8080 -v /home/your-user:/root/docker-path (the -v flag is used to persist data between containers)
+# -d (to run the container in a detached mode)
+# -p Hport:Iport (starts a container of an image with the ports attached)
+# --rm (rm flag automatically removes the container when it exits)
+# --name containername (give the container a specific name)
+# -e SOMEVARIABLE (specifying environmental variables)
+# --network some-network (specifying the network)
+# -v /home/your-user:/root/docker-path (the -v flag is used to persist data between containers)
 
 * docker images (checks the images you have installed locally)
 
