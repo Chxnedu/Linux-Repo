@@ -11,6 +11,11 @@
 # --network some-network (specifying the network)
 # -v /home/your-user:/root/docker-path (the -v flag is used to persist data between containers)
 
+* the -v flag is deprecated, and the --mount flag is now in use
+the --mount flag takes 2 options; volume and bind
+volume takes 2 parameters "source"(the name of the volume) & "target"(mount location of the volume in the container)
+bind takes 3 parameters; "type=bind" & "source" & "target"
+
 * docker images (checks the images you have installed locally)
 
 * docker ps (check for running containers... use -a flag to see ALL containers)
