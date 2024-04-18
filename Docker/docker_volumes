@@ -1,4 +1,5 @@
-# how to add volume to a docker container for data persistence
+* to create a volume for a docker container using cli;
+docker volume create data_volume(volume name)
 
 * to add a volume to a docker container, you have to specify it in the docker compose
 file. eg:
