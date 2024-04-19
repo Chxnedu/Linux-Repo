@@ -8,7 +8,7 @@
 
 * kubectl cluster-info (used to get info about a cluster)
 
-* kubectl get nodes/pods/services/deployments (checking the status of those items)
+* kubectl get nodes/pods/services/deployments (checking the status of those items... use "-o wide" flag to get more options )
 
 * kubectl create deployment deploymentname --image=image (to create a deployment that will then create a pod)
 
@@ -23,8 +23,6 @@
 * kubectl delete deployment deploymentname (delete a deployment which in turn deletes the pods and replicas)
 
 * kubectl apply -f filename.yaml (create a deployment from a config file)
-
-* kubectl get pod -o wide (to see more info like ip addresses)
 
 * kubectl delete -f filename.yaml (to delete a deployment/service using the config file)
 
