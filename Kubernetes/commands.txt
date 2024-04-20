@@ -35,6 +35,12 @@
 
 * kubectl get configmap -n my-namespace (to get a configmap in a particular namespace. can also be used for other resources)
 
+* kubectl rollout status deployment/your-deployment-name (to check the status of your rollouts)
+
+* kubectl rollout history deployment/your-deployment-name (to see your rollout history)
+
+* kubectl rollout undo deployment/your-deployment-name (to rollback an update)
+
 * kubens my-namespace (used to change the default namespace to what you want)
 
 *  
