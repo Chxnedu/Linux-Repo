@@ -41,5 +41,6 @@ bind takes 3 parameters; "type=bind" & "source" & "target"
 * docker rmi containerid (to remove an image)  
 
 * docker build -t myapp:1.0 ./ (command to build a docker image. -t to specify the name of the image and the other param to specify the path to the dockerfile)
+# add the "--progress=plain" flag to see the steps as the image is being built 
 
 * docker inspect imagename (can use this to see more details of a container)
