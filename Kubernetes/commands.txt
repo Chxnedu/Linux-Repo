@@ -16,6 +16,11 @@
 # deployment deploymentname --image=image (to create a deployment that will then create a pod)
 # namespace my-namespace (to create your own namespace)
 
+* if you want to automatically create a yaml file using k8s there are a few commands you could try;
+# kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml
+(the --dry-run flag is used to tell k8s not to run the deployment)
+(you can also add the --replicas=2 flag)
+
 * kubectl apply -f filename.yaml (create a deployment from a config file)
 
 * kubectl describe pod podname (to show whats happening inside the pod)
