@@ -4,7 +4,7 @@
 
 * minikube status (check the status of running cluster)
 
-* kubectl run hello-minikube (used to run an application on a cluster)
+* kubectl run --image=image pod-name (used to create a pod)
 
 * kubectl cluster-info (used to get info about a cluster)
 
