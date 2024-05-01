@@ -48,4 +48,9 @@
 
 * kubens my-namespace (used to change the default namespace to what you want)
 
-*  kubectl config set-context $(kubectl config current-context) --namespace=dev (this command is used to change the default namespace)
+* kubectl config set-context $(kubectl config current-context) --namespace=dev (this command is used to change the default namespace)
+
+* kubectl taint nodes node-name key=value:taint-effect (this is used to apply a taint to a node to prevent pods from being placed on it)
+# there are 3 taint effects; NoSchedule, PreferNoSchedule, NoExecute
+# eg; kubectl taint nodes node01 app=blue:NoSchedule (this will taint the node with the key value pair "app=blue" and prevent any pod from being scheduled on it)
+# tolerations for pods are added on the pod definition file (refer to documentation)
