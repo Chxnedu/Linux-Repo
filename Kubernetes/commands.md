@@ -12,6 +12,7 @@
 - **`kubectl get nodes/pods/services/deployments`** (checking the status of those items)
 -     "-o wide" flag to get more options
       "--namespace=dev" flag to set the namespace
+      "--selector app=App1" flag to set the selector for filtering objects
 
 - **`kubectl create`** (same as apply)
 -     "-f filename" to specify the file you want to create. can be a pod definition file or deployment file
@@ -53,3 +54,66 @@
 -     there are 3 taint effects; NoSchedule, PreferNoSchedule, NoExecute
       eg; `kubectl taint nodes node01 app=blue:NoSchedule` (this will taint the node with the key value pair "app=blue" and prevent any pod from being scheduled on it)
       tolerations for pods are added on the pod definition file (refer to documentation)
+
+
+# notes
+**pod definition file template**
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: App1
+    function: Frontend
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+```
+
+**deployment file template**
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: App1
+    function: Frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: App1
+        function: Frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+**service template**
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+```
+ClusterIP is the default service type if you don't specify otherwise
+
