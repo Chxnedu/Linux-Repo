@@ -14,9 +14,9 @@
       "--namespace=dev" flag to set the namespace
 
 - **`kubectl create`** (same as apply)
--     "-f filename" to specify the file you want to create... can be a pod definition file or deployment file
-      deployment deploymentname --image=image (to create a deployment that will then create a pod)
-      namespace my-namespace (to create your own namespace)
+-     "-f filename" to specify the file you want to create. can be a pod definition file or deployment file
+      "deployment deploymentname --image=image" to create a deployment that will then create a pod
+      "namespace my-namespace" to create your own namespace
 
  *if you want to automatically create a yaml file using k8s, there are a few commands you could try;*
 - **`kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml`**
