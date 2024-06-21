@@ -55,9 +55,13 @@
       eg; `kubectl taint nodes node01 app=blue:NoSchedule` (this will taint the node with the key value pair "app=blue" and prevent any pod from being scheduled on it)
       tolerations for pods are added on the pod definition file (refer to documentation)
 
+- **`kubectl label nodes <node-name> <key>=<value>`** (this is used to label a node to be used by a node selector)
+  
+- 
+
 
 # notes
-**pod definition file template**
+### pod definition file template
 ```
 apiVersion: v1
 kind: Pod
@@ -72,9 +76,11 @@ spec:
     image: nginx:1.14.2
     ports:
     - containerPort: 80
+  nodeSelector:
+    size: large
 ```
 
-**deployment file template**
+### deployment file template
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -101,7 +107,7 @@ spec:
         - containerPort: 80
 ```
 
-**service template**
+### service template
 ```
 apiVersion: v1
 kind: Service
@@ -116,4 +122,22 @@ spec:
       targetPort: 9376
 ```
 ClusterIP is the default service type if you don't specify otherwise
+
+### tolerations
+these are applied to pods and allow the scheduler to schedule pods with matching taints
+```
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+```
+to remove a taint from a node, use the same command used to add it but add a "-" at the end
+
+### node selectors and affinity
+to make sure that a pod is only deployed on a particular node, you can use a node selector.
+add the `nodeSelector` parameter to the spec section of the definition file followed by the key-value pair used to identify the node
+
+
+
 
