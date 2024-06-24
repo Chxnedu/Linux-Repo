@@ -147,7 +147,9 @@ to remove a taint from a node, use the same command used to add it but add a "-"
 to make sure that a pod is only deployed on a particular node, you can use a node selector.
 add the `nodeSelector` parameter to the spec section of the definition file followed by the key-value pair used to identify the node
 
-**node affinity** is similar to selector, but with more functionality. look in the pod spec template to see how to use
+**node affinity** is similar to selector, but with more functionality. look in the pod spec template to see how to use.
+the `value` parameter can contain a list of values, and the `operator` parameter has specific operators you can use. refer to [documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+
 
 
 
