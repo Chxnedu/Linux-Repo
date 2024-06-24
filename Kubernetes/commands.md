@@ -78,6 +78,15 @@ spec:
     - containerPort: 80
   nodeSelector:
     size: large
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: size
+            operator: In
+            values:
+            - large
 ```
 
 ### deployment file template
@@ -137,6 +146,8 @@ to remove a taint from a node, use the same command used to add it but add a "-"
 ### node selectors and affinity
 to make sure that a pod is only deployed on a particular node, you can use a node selector.
 add the `nodeSelector` parameter to the spec section of the definition file followed by the key-value pair used to identify the node
+
+**node affinity** is similar to selector, but with more functionality. look in the pod spec template to see how to use
 
 
 
