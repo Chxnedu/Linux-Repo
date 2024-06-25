@@ -12,6 +12,7 @@
 - **`kubectl get nodes/pods/services/deployments`** (checking the status of those items)
 -     "-o wide" flag to get more options
       "--namespace=dev" flag to set the namespace
+      "--all-namespaces" flag to check in all the namespaces
       "--selector app=App1" flag to set the selector for filtering objects
 
 - **`kubectl create`** (same as apply)
@@ -76,6 +77,13 @@ spec:
     image: nginx:1.14.2
     ports:
     - containerPort: 80
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 1
+      limits:
+        memory: "2Gi"
+        cpu: 2
   nodeSelector:
     size: large
   affinity:
@@ -150,7 +158,39 @@ add the `nodeSelector` parameter to the spec section of the definition file foll
 **node affinity** is similar to selector, but with more functionality. look in the pod spec template to see how to use.
 the `value` parameter can contain a list of values, and the `operator` parameter has specific operators you can use. refer to [documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
 
+node affinity can be paired with taints & tolerations to ensure that pods are placed on nodes you want them to be placed on.
 
 
+### resource requirements and limits
+you can set the required resources a pod needs using the `resources` parameter under each container.
+you can also set a limit so that they don't use up resources past that limit. refer to the pod spec template to see how to use.
+
+a **LimitRange** object can be created to set the default and max resources a pod can use. refer to [documentation](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/) to know how to use.
+
+**Resource Quotas** can be used to set hard limits at the namespace level for resource requirements. refer to [documentation](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
+
+
+### daemonsets
+daemonsets are used to run a single pod on every node in a cluster. when a node is added to the cluster, the daemonset automatically deploys that pod on it, and when a node is delete, the pod is deleted too. it can be used in several usecases like for monitoring, kubeproxy, or networking where you need a particular service on each node in the cluster.
+
+daemonset definition files are very similar to replicaset files, with slight differences
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: monitoring-daemon
+spec:
+  selector:
+    matchLabels:
+      app: monitoring-agent
+  template:
+    metadata:
+      labels:
+        app: monitoring-agent
+    spec:
+      containers:
+      - name: monitoring-agent
+        image: monitoring-agent
+```
 
 
