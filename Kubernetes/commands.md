@@ -11,8 +11,8 @@
   
 - **`kubectl get nodes/pods/services/deployments`** (checking the status of those items)
 -     "-o wide" flag to get more options
-      "--namespace=dev" flag to set the namespace
-      "--all-namespaces" flag to check in all the namespaces
+      "--namespace=dev" or "-n dev" flag to set the namespace
+      "--all-namespaces" or "-A" flags to check in all the namespaces
       "--selector app=App1" flag to set the selector for filtering objects
 
 - **`kubectl create`** (same as apply)
