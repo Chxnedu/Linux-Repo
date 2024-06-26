@@ -193,4 +193,7 @@ spec:
         image: monitoring-agent
 ```
 
+### static pods
+static pods are pods created and managed by the kubelet daemon on a specific node, without the kube api monitoring them.
+to create a static pod, write the pod definition file and place it in the directory `/etc/kubernetes/manifests`. it is automatically picked up by the kubelet and created. to confirm the pod file location, look in the kubelet configuration file for the staticPodPath. and to delete the pod, just delete the file.
 
