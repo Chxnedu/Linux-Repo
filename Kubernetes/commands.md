@@ -197,3 +197,7 @@ spec:
 static pods are pods created and managed by the kubelet daemon on a specific node, without the kube api monitoring them.
 to create a static pod, write the pod definition file and place it in the directory `/etc/kubernetes/manifests`. it is automatically picked up by the kubelet and created. to confirm the pod file location, look in the kubelet configuration file for the staticPodPath. and to delete the pod, just delete the file.
 
+
+### multiple schedulers
+you can create and use your own scheduler asides the default scheduler. refer to [documentation](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/) to see how to do that.
+
