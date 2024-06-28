@@ -7,17 +7,18 @@
 # kubectl commands
 - **`kubectl cluster-info`** (used to get info about a cluster)
   
-- **`kubectl run --image=image pod-name`** (used to create a pod)
+- **`kubectl run --image=<image-name> <pod-name>`** (used to create a pod)
   
 - **`kubectl get nodes/pods/services/deployments`** (checking the status of those items)
 -     "-o wide" flag to get more options
       "--namespace=dev" or "-n dev" flag to set the namespace
       "--all-namespaces" or "-A" flags to check in all the namespaces
       "--selector app=App1" flag to set the selector for filtering objects
+      "-o yaml > file.yaml" flag to get the yaml file for an object which can be used to make updates
 
 - **`kubectl create`** (same as apply)
 -     "-f filename" to specify the file you want to create. can be a pod definition file or deployment file
-      "deployment deploymentname --image=image" to create a deployment that will then create a pod
+      "deployment <deployment-name> --image=<image-name>" to create a deployment that will then create a pod
       "namespace my-namespace" to create your own namespace
 
  *if you want to automatically create a yaml file using k8s, there are a few commands you could try;*
@@ -29,40 +30,50 @@
 -     --namespace=my-namespace (using this flag creates a resource in a namespace)
       you can also add "namespace: my-namespace" in the config file under metadata
 
-- **`kubectl describe pod podname`** (to show whats happening inside the pod)
+- **`kubectl describe pod <pod-name>`** (to show whats happening inside the pod)
 
-- **`kubectl edit deployment deploymentname`** (you can use this to edit a deployment and do stuff like change the image)
+- **`kubectl edit deployment <deployment-name>`** (you can use this to edit a deployment and do stuff like change the image)
 
-- **`kubectl logs podname`** (for checking the logs of a pod)
+- **`kubectl logs <pod-name>`** (for checking the logs of a pod)
 
-- **`kubectl exec -it podname --bin/bash or sh`** (opening a terminal inside a pod)
+- **`kubectl exec -it <pod-name> --bin/bash or sh`** (opening a terminal inside a pod)
 
-- **`kubectl delete deployment deploymentname`** (delete a deployment which in turn deletes the pods and replicas)
+- **`kubectl delete deployment <deployment-name>`** (delete a deployment which in turn deletes the pods and replicas)
 
 - **`kubectl delete -f filename.yaml`** (to delete a deployment/service using the config file)
 
 - **`kubectl get configmap -n my-namespace`** (to get a configmap in a particular namespace. can also be used for other resources)
 
-- **`kubectl rollout status deployment/your-deployment-name`** (to check the status of your rollouts)
+- **`kubectl rollout status deployment/<deployment-name>`** (to check the status of your rollouts)
 
-- **`kubectl rollout history deployment/your-deployment-name`** (to see your rollout history)
+- **`kubectl rollout history deployment/<deployment-name>`** (to see your rollout history)
 
-- **`kubectl rollout undo deployment/your-deployment-name`** (to rollback an update)
+- **`kubectl rollout undo deployment/<deployment-name>`** (to rollback an update)
 
 - **`kubectl config set-context $(kubectl config current-context) --namespace=dev`** (this command is used to change the default namespace)
 
-- **`kubectl taint nodes node-name key=value:taint-effect`** (this is used to apply a taint to a node to prevent pods from being placed on it)
+- **`kubectl taint nodes <node-name> key=value:taint-effect`** (this is used to apply a taint to a node to prevent pods from being placed on it)
 -     there are 3 taint effects; NoSchedule, PreferNoSchedule, NoExecute
-      eg; `kubectl taint nodes node01 app=blue:NoSchedule` (this will taint the node with the key value pair "app=blue" and prevent any pod from being scheduled on it)
+      eg; `kubectl taint nodes node01 app=blue:NoSchedule` (this will taint the node with the key-value pair "app=blue" and prevent any pod from being scheduled on it)
       tolerations for pods are added on the pod definition file (refer to documentation)
 
 - **`kubectl label nodes <node-name> <key>=<value>`** (this is used to label a node to be used by a node selector)
   
+- **`kubernetes logs -f <pod-name> <container-name>`** (used to view the application logs of a particular pod)
+-     if there is only one container inside the pod, you don't need to specify the container name
+      the "-f" flag is used to get the logs live-streamed to the output
+
+- **`kubectl rollout status deployment/<deployment-name>`** (to see the status of your rollout)
+- **`kubectl rollout history deployment/<deployment-name>`** (to see the rollout history of your deployment)
+- **`kubectl rollout undo deployment/<deployment-name>`** (to return a deployment to the previous rollout revision)
+
+- **`kubectl set image deployment/<deployment-name> <container>=<image>`** (to set a new image for a deployment)
+
 - 
 
 
 # notes
-### pod definition file template
+## pod definition file template
 ```
 apiVersion: v1
 kind: Pod
@@ -97,7 +108,7 @@ spec:
             - large
 ```
 
-### deployment file template
+## deployment file template
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -124,7 +135,7 @@ spec:
         - containerPort: 80
 ```
 
-### service template
+## service template
 ```
 apiVersion: v1
 kind: Service
@@ -140,7 +151,7 @@ spec:
 ```
 ClusterIP is the default service type if you don't specify otherwise
 
-### tolerations
+## tolerations
 these are applied to pods and allow the scheduler to schedule pods with matching taints
 ```
 tolerations:
@@ -151,7 +162,7 @@ tolerations:
 ```
 to remove a taint from a node, use the same command used to add it but add a "-" at the end
 
-### node selectors and affinity
+## node selectors and affinity
 to make sure that a pod is only deployed on a particular node, you can use a node selector.
 add the `nodeSelector` parameter to the spec section of the definition file followed by the key-value pair used to identify the node
 
@@ -161,7 +172,7 @@ the `value` parameter can contain a list of values, and the `operator` parameter
 node affinity can be paired with taints & tolerations to ensure that pods are placed on nodes you want them to be placed on.
 
 
-### resource requirements and limits
+## resource requirements and limits
 you can set the required resources a pod needs using the `resources` parameter under each container.
 you can also set a limit so that they don't use up resources past that limit. refer to the pod spec template to see how to use.
 
@@ -170,7 +181,7 @@ a **LimitRange** object can be created to set the default and max resources a po
 **Resource Quotas** can be used to set hard limits at the namespace level for resource requirements. refer to [documentation](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
 
 
-### daemonsets
+## daemonsets
 daemonsets are used to run a single pod on every node in a cluster. when a node is added to the cluster, the daemonset automatically deploys that pod on it, and when a node is delete, the pod is deleted too. it can be used in several usecases like for monitoring, kubeproxy, or networking where you need a particular service on each node in the cluster.
 
 daemonset definition files are very similar to replicaset files, with slight differences
@@ -193,11 +204,33 @@ spec:
         image: monitoring-agent
 ```
 
-### static pods
+## static pods
 static pods are pods created and managed by the kubelet daemon on a specific node, without the kube api monitoring them.
 to create a static pod, write the pod definition file and place it in the directory `/etc/kubernetes/manifests`. it is automatically picked up by the kubelet and created. to confirm the pod file location, look in the kubelet configuration file for the staticPodPath. and to delete the pod, just delete the file.
 
 
-### multiple schedulers
+## multiple schedulers
 you can create and use your own scheduler asides the default scheduler. refer to [documentation](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/) to see how to do that.
 
+
+## monitoring and logging
+you can monitor cluster components using the kubernetes metrics server. to enable it, clone the [github](https://github.com/kubernetes-sigs/metrics-server) repo and run `kubectl create -f .` from inside the cloned repo
+
+give it a few minutes to collect the data it needs, then you can use the commands `kubectl top node` & `kubectl top pod` to check cpu and memory utilization of the pods and nodes.
+
+to view application logs from a pod in kubernetes, use the `kubernetes logs` command
+
+
+## rolling updates and rollbacks
+there are 2 ways of carrying out updates in kubernetes; 
+- recreate: all the instances of the application are taken down and the updated version is deployed
+- rolling update: the instances are terminated one by one and replaced as they are terminated to avoid extended periods of downtime
+in kubernetes, rolling updates is the default deployment strategy. to trigger the update, simply replace the docker image in the deployment file with the new one and do a `kubectl apply`
+
+
+## commands and arguments
+in a dockerfile, you can set the `ENTRYPOINT` and `CMD` commands to specify certain commands that should execute at runtime. with kubernetes, the equivalent for these commands are `command` and `args` under the container section of a definition file.
+
+for example, a container using the ubuntu image will start and stop immediately. but if you specify that it should sleep for 10s, it will start, sleep for 10s and stop. to do that in docker, you include the commands in the docker file with `ENTRYPOINT ["sleep"]` and `CMD ["5"]`. this will ensure that when starting the container, you provide the length of sleep you want and it will be appended to the sleep command, if not, the CMD will take precedence.
+
+in kubernetes, `command` serves the purpose of entrypoint and `args` serves the purpose of cmd.
