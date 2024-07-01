@@ -9,7 +9,7 @@
   
 - **`kubectl run --image=<image-name> <pod-name>`** (used to create a pod)
   
-- **`kubectl get nodes/pods/services/deployments`** (checking the status of those items)
+- **`kubectl get nodes/pods/services/deployments/configmaps`** (checking the status of those items)
 -     "-o wide" flag to get more options
       "--namespace=dev" or "-n dev" flag to set the namespace
       "--all-namespaces" or "-A" flags to check in all the namespaces
@@ -69,8 +69,18 @@
 
 - **`kubectl set image deployment/<deployment-name> <container>=<image>`** (to set a new image for a deployment)
 
-- 
+- **`kubectl create configmap`** (used to create a configmap for a pod)
+  ```
+  kubectl create configmap \
+      <config-name> --from-literal=<key>=<value> \
+                    --from-literal=<key>=<value>
+  ```
 
+- **`kubectl create secret generic`** (used to create a secret)
+  ```
+  kubectl create secret generic \
+     <secret-name> --from-literal=<key>=<value>
+  ```
 
 # notes
 ## pod definition file template
@@ -88,6 +98,12 @@ spec:
     image: nginx:1.14.2
     ports:
     - containerPort: 80
+    env:
+      - name: APP_COLOR
+        value: pink
+    envFrom:
+      - configMapRef:
+            name: app-config
     resources:
       requests:
         memory: "1Gi"
@@ -234,3 +250,57 @@ in a dockerfile, you can set the `ENTRYPOINT` and `CMD` commands to specify cert
 for example, a container using the ubuntu image will start and stop immediately. but if you specify that it should sleep for 10s, it will start, sleep for 10s and stop. to do that in docker, you include the commands in the docker file with `ENTRYPOINT ["sleep"]` and `CMD ["5"]`. this will ensure that when starting the container, you provide the length of sleep you want and it will be appended to the sleep command, if not, the CMD will take precedence.
 
 in kubernetes, `command` serves the purpose of entrypoint and `args` serves the purpose of cmd.
+
+
+## env variables, configmaps, and secrets
+the basic way to set an environment variable in k8s is to use the `env` property in the pod definition. there are other better ways to do it.
+
+configmaps are used to pass configuration data in the form of key-value pairs in k8s. below is an example configmap definition file
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+    APP_COLOR: blue
+    APP_ENV: dev
+```
+to inject the newly created configmap into a pod, add an `envFrom` property to the container \
+if you want to only inject one key from the configmap, use the configuration below
+```
+env:
+  - name: APP_COLOR
+    valueFrom:
+      configMapKeyRef:
+        name: app-config
+        key: APP_COLOR
+```
+for more info, check out the [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables)
+
+secrets are similar to configmaps, but as the name implies they are used to store sensitive variables
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+data:
+  DB_Host: mysql
+  DB_User: root
+  DB_Password: passwd
+```
+the values should be encoded in base64. you can do that using `echo -n 'mysql' | base64` \
+to inject the secret into the pod, use a `envFrom` property like in configmap, but with `secretRef` instead \
+to inject only one key from the secret, use the config below
+```
+env:
+  - name: DB_Password
+    valueFrom:
+      secretKeyRef:
+        name: app-secret
+        key: DB_Password
+```
+to encrypt secret data at rest, take a look at the [documentation](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
+
+
+
+
