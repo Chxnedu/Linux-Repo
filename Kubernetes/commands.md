@@ -32,9 +32,12 @@
 
 - **`kubectl describe pod <pod-name>`** (to show whats happening inside the pod)
 
-- **`kubectl edit deployment <deployment-name>`** (you can use this to edit a deployment and do stuff like change the image)
+- **`kubectl edit`** (to edit an object)
+-     deployment <deployment-name>
+      KUBE_EDITOR="nano" kubectl edit (use this to change the editor to nano or anyone you want)
 
 - **`kubectl logs <pod-name>`** (for checking the logs of a pod)
+-     -c <container-name> (checking for container logs)
 
 - **`kubectl exec -it <pod-name> --bin/bash or sh`** (opening a terminal inside a pod)
 
@@ -249,7 +252,8 @@ in a dockerfile, you can set the `ENTRYPOINT` and `CMD` commands to specify cert
 
 for example, a container using the ubuntu image will start and stop immediately. but if you specify that it should sleep for 10s, it will start, sleep for 10s and stop. to do that in docker, you include the commands in the docker file with `ENTRYPOINT ["sleep"]` and `CMD ["5"]`. this will ensure that when starting the container, you provide the length of sleep you want and it will be appended to the sleep command, if not, the CMD will take precedence.
 
-in kubernetes, `command` serves the purpose of entrypoint and `args` serves the purpose of cmd.
+in kubernetes, `command` serves the purpose of entrypoint and `args` serves the purpose of cmd. \
+for more, check out the [documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/)
 
 
 ## env variables, configmaps, and secrets
@@ -302,5 +306,15 @@ env:
 to encrypt secret data at rest, take a look at the [documentation](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
 
 
+## init containers
+init containers are specialized containers that run before app containers in a Pod. Init containers can contain utilities or setup scripts not present in an app image.
+to know more about them, check out the [documentation](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
 
+
+## probes - liveness, readiness and startup
+liveness probes are used to know when to restart a container,  readiness probes are used to know when a container is ready to start accepting traffic, and startup probes are used to know when a container has started. \ 
+to know how to implement them, check the [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
+
+
+## 
 
