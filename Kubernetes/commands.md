@@ -85,6 +85,12 @@
      <secret-name> --from-literal=<key>=<value>
   ```
 
+- **`kubectl drain <node-name>`** (used to rid a node of the current workload running on it and move them over to another node)
+
+- **`kubectl uncordon <node-name>`** (to mark a node as safe to place workloads on, after draining it)
+
+- **`kubectl cordon <node-name>`** (to mark a node so that workloads cannot be placed on it)
+
 # notes
 ## pod definition file template
 ```
@@ -316,5 +322,47 @@ liveness probes are used to know when to restart a container,  readiness probes 
 to know how to implement them, check the [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
 
 
-## 
+## cluster upgrade process
+when you want to upgrade a k8s cluster, there are a few points you have to take note of;
+- k8s supports only 3 minor versions concurrently
+- if the `kube-apiserver` is on version 1.10, the `control manager, kubectl, and kube-scheduler` can be lower by 1 minor version and cannot be higher than the apiserver
+- the `kubelet` and `kubeproxy` can be lower by 2 minor versions, and also not higher than the apiserver version
+- you can only upgrade one version at a time eg; from 1.10 to 1.11, not to 1.12
+
+if you setup your cluster with the kubeadm tool, upgrading isn't too complicated; \
+- upgrade the kubeadm tool using the commands;
+```
+sudo apt-mark unhold kubeadm && \
+sudo apt-get update && sudo apt-get install -y kubeadm='1.29.0-1.1' && \
+sudo apt-mark hold kubeadm
+```
+- run `kubeadm upgrade plan` to view the current version and available versions
+- run `kubeadm upgrade apply v1.11.0` to upgrade the cluster components
+- if you have kubelets running on the master node, upgrade it using `apt-get upgrade -y kubelet=1.12.00` then run `systemctl restart kubelet`
+
+now it is time to upgrade the individual nodes. first you drain the node of any workloads \
+then you update the package repo
+then run the following commands on each node;
+```
+apt-get upgrade -y kubeadm=1.12.00
+kubeadm upgrade node
+apt-get upgrade -y kubelet=1.12.0
+systemctl restart kubelet
+```
+after that you uncordon the node and do the same to the next node. \
+follow the [documentation](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/) closely for upgrading clusters \
+recommend doing upgrades with a script
+
+
+
+
+
+
+
+
+
+
+
+
+
 
