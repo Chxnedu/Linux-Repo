@@ -8,6 +8,12 @@
 
 * git remote add origin gitsshlink (for git to know which repo to push to)
 
+* git remote set-url origin gitsshlink (to set the new remote link)
+
+* git remote -v (to see the current remote links)
+
+* 
+
 * git push (pushing to remote repo)
 
 * git branch (to check which branch youre on)
