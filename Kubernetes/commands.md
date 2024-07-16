@@ -354,9 +354,8 @@ follow the [documentation](https://kubernetes.io/docs/tasks/administer-cluster/k
 recommend doing upgrades with a script
 
 
-
-
-
+## backup and restore
+rewatch the videos and get the commands tomorrow
 
 
 
