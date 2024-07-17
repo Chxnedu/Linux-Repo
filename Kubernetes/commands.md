@@ -91,6 +91,10 @@
 
 - **`kubectl cordon <node-name>`** (to mark a node so that workloads cannot be placed on it)
 
+- **`kubectl get all --all-namespaces -o yaml > all-deploy-services.yaml`** (to save the configuration of all objects to a yaml file)
+
+- 
+
 # notes
 ## pod definition file template
 ```
@@ -355,7 +359,26 @@ recommend doing upgrades with a script
 
 
 ## backup and restore
-rewatch the videos and get the commands tomorrow
+you can back up a k8s cluster by backing up the object definition files, like by storing them on github. \
+you can also back up the etcd server which stores info on all the objects in the cluster. First, export the etcd version using `export ETCDCTL_API=3`. 
+```
+etcdctl --endpoints=https://127.0.0.1:2379 \
+  --cacert=<trusted-ca-file> --cert=<cert-file> --key=<key-file> \
+  snapshot save <backup-file-location>
+```
+to get the needed files, describe the etcd pod which is found in the kube-system namespace. \
+you can find the manifests for the controlplane objects in `/etc/kubernetes/manifests/` \
+to restore a backup, `etcdctl snapshot restore --data-dir /var/lib/etcd-from-backup snapshot.db` \
+after restoring the backup, change the volume host path at the end of the `/etc/kubernetes/manifests/etcd.yaml` file to the new data dir path. for more info check out the [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster)
+
+
+## authentication in kubernetes
+in order to maintain security and access to our k8s clusters, we have to authenticate whoever has access to the kubeapi. there are different methods to authenticate users; password files, token files, certificates, 3rd party.
+### password and token files
+this is the easiest form of authentication and involves passing a csv file of users and passwords to the kubeapi. the file is a comma-separated 3-column list of password, username, and user id. the file is to be passed to the kubeapi as an option `--basic-auth-file=` \
+to authenticate a user, use the command `curl -v -k https://master-node-ip:6443/api/v1/pods -u "user1:password123"`. the csv file can have an optional 4th column for groups. \
+token files too are csv files containing columns; token, username, userid, group. to pass a token file use `--token-auth-file` and for the curl command use `--header "Authorization: Bearer token9u30430"` instead of `-u` \
+note that this is not a recommended approach to authentication in k8s
 
 
 
