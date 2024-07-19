@@ -379,6 +379,43 @@ this is the easiest form of authentication and involves passing a csv file of us
 to authenticate a user, use the command `curl -v -k https://master-node-ip:6443/api/v1/pods -u "user1:password123"`. the csv file can have an optional 4th column for groups. \
 token files too are csv files containing columns; token, username, userid, group. to pass a token file use `--token-auth-file` and for the curl command use `--header "Authorization: Bearer token9u30430"` instead of `-u` \
 note that this is not a recommended approach to authentication in k8s
+### certificate authentication
+authenticating with certificates is the right way to go in k8s. the certificates consist of the private and public(certificates). the public certificates end with a `.crt or .pem` extension while the private keys end with a `.key or -key.pem` extension. \
+in a k8s cluster, the server certificates consist of `kubeapi, etcd and kubelet`, and the client certificates consists of `admins, kube-scheduler, kube-controller-manager, kube-proxy`, which all communicate with the kubeapi server and require their own sets of certs and keys. 
+
+the kubeapi needs to communicate with the etcd and kubelet, and that can be done with the certificates already generated or you can generate new certificates for communication with the etcd and kubelet respectively. \
+a Certificate Authority(CA) signs all the certificates. there are various CAs that can be used but I will stick with openssl. 
+
+firstly, we get a certificate and key for the CA
+```
+openssl genrsa -out ca.key 2048 #generate private key
+
+openssl req -new -key ca.key -subj "/CA=KUBERNETES-CA" -out ca.csr #send certificate signing request
+
+openssl x509 -req -in ca.csr -signkey ca.key -out ca.cert #sign the certificate
+```
+
+then, to get certificate and key for the clients
+```
+openssl genrsa -out <client-name>.key 2048
+
+openssl req -new -key <name>.key -subj "/CA=<client-name>" -out <name>.csr
+
+openssl x509 -req -in <name>.csr -CA ca.cert -CAkey ca.key -out <name>.cert
+```
+when creating admin certificates, a parameter has to be added to the certificate signing request `/CA=kube-admin/O=system:masters` \
+the kube-scheduler and kube-controller-manager are system components, so they require a prefix in their name when sending a CSR `/CA=system:<name>` 
+
+to use an admin user, you can either send a curl request `curl https://kube-apiserver:6443/api/v1/pods --key admin.key --cert admin.crt --cacert ca.cert` or add those details to the kube-config file. \
+the etcd server needs peer servers so you generate certificates for the etcd peers.
+
+the kubeapi server requires you to add a config file when sending a CSR. You can check the [Documentation](https://kubernetes.io/docs/tasks/administer-cluster/certificates/#openssl) for more details 
+
+the kubelet has its own certificates, but each kubectl node requires its own pair of certificates which should be generated and named after its respective node. since the nodes are system components like the kube-scheduler, add `system:node:<node-name>` when sending the CSR, and add them to the `system:node`  group like you did with the admin 
+
+to specify the paths to these certificates we generated, add them to the manifest files of each service and to view the certificate path you can check the manifest files too at `/etc/kubernetes/manifests`
+
+to view a certificate `openssl x509 -in /path/to/certificate.crt -text -noout`
 
 
 
