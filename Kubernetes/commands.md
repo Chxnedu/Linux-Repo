@@ -418,6 +418,7 @@ to specify the paths to these certificates we generated, add them to the manifes
 to view a certificate `openssl x509 -in /path/to/certificate.crt -text -noout` 
 
 for more info you can check out the [Documentation](https://kubernetes.io/docs/setup/best-practices/certificates/)
+when debugging issues related to certificates, remember to check the docker(crictl) logs for the containers and look into the files and paths well.
 
 
 
