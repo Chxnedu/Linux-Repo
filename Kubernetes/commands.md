@@ -415,7 +415,9 @@ the kubelet has its own certificates, but each kubectl node requires its own pai
 
 to specify the paths to these certificates we generated, add them to the manifest files of each service and to view the certificate path you can check the manifest files too at `/etc/kubernetes/manifests`
 
-to view a certificate `openssl x509 -in /path/to/certificate.crt -text -noout`
+to view a certificate `openssl x509 -in /path/to/certificate.crt -text -noout` 
+
+for more info you can check out the [Documentation](https://kubernetes.io/docs/setup/best-practices/certificates/)
 
 
 
