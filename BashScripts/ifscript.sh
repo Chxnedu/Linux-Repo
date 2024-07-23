@@ -32,4 +32,6 @@ fi
 # -gt returns true if val1 is greater than val2
 # -lt returns true if val1 is less than val2
 # -le returns true if val1 is less than or equal to val2
+# "-f /path/to/file" checks for files
+# "-d /path/to/directory" checks for directories
 
