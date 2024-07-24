@@ -8,6 +8,8 @@ read name
 # always remember to put the double quotations for each variable
 # if not your code won't work
 # and always space your work
+# when using if statements, you can use "||" as OR, and "&&" as AND statements
+
 
 if [ "$name" = "chxnedu" ]
 then
