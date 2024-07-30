@@ -1,13 +1,18 @@
 #CASE STATEMENT
-# read -p "Are you 21 or over? Y/N " ANSWER
-# case "$ANSWER" in 
-#   [yY] | [yY][eE][sS])
-#     echo "You can have a beer :)"
-#     ;;
-#   [nN] | [nN][oO])
-#     echo "Sorry, no drinking"
-#     ;;
-#   *)
-#     echo "Please enter y/yes or n/no"
-#     ;;
-# esac
+# case statements are used to present users with choices
+
+# this will ask the user a question and store the answer in a variable. you could do this with echo and read
+read -p "Are you 21 or over? Y/N " ANSWER
+
+# the case statement checks if the user entered yes or no and gives an output based on that
+case "$ANSWER" in 
+  [yY] | [yY][eE][sS])
+    echo "You can have a beer :)"
+    ;;
+  [nN] | [nN][oO])
+    echo "Sorry, no drinking"
+    ;;
+  *)
+    echo "Please enter y/yes or n/no"
+    ;;
+esac
