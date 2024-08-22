@@ -420,7 +420,26 @@ to view a certificate `openssl x509 -in /path/to/certificate.crt -text -noout`
 for more info you can check out the [Documentation](https://kubernetes.io/docs/setup/best-practices/certificates/)
 when debugging issues related to certificates, remember to check the docker(crictl) logs for the containers and look into the files and paths well.
 
-
+### certificates api
+kubernetes has a certificates API for managing certificate signing requests. The API can be used to manage CSRs from users and sign certificates automatically. the workflow is that a new user generates a certificate using the `openssl` command, and generates a certificate signing request which they will send to the admin. 
+the admin takes the CSR and generates a Certificate Signing Request Object that looks like this;
+```
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+    name: chxnedu
+spec: 
+    expirationSeconds: 600
+    usages: 
+    - digital signature
+    -  key encipherment
+    - server auth
+    request:
+      jkljfkljfkljdkljdkgjdklgjklgjdgjsdkjdkgjkdjgsdkgkldkdjkjdkgj
+``` 
+note that the request field contains the CSR encoded in base64.
+once the request has been created, it can be viewed with `kubectl get csr` and approved with `kubectl certificate approve chxnedu` \
+after the certificate has been signed, you can view it with `kubectl get csr chxnedu -o yaml` and you will see the base64 encoded certificate content as part of the output. decode it and share it with the end user
 
 
 
