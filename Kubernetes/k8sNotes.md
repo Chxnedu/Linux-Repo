@@ -498,6 +498,10 @@ after writing the file, you do not need to create any object for it, the kubectl
 the `current-context` param is used to tell kubectl the default context to use.
 the default kubeconfig file is located in `$HOME/.kube/config`
 
+for more info, check out the [Documentation](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/).
+
+
+
 
 
 
