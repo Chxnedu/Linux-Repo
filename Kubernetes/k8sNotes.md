@@ -522,6 +522,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata: 
   name: developer
+  namespace: default
 rules: 
 - apiGroups: [""]
   resources: ["pods"]
@@ -552,6 +553,14 @@ create the role binding using the kubectl create command.
 to check if you have a particular permission as a user, you can run the `kubectl auth can-i <action> <object>` command, eg `kubectl auth can-i create deployment`. you can also add the `--as dev-user` flag to check for other users.
 
 to check the kubeapi server config, check the yaml file located at `/etc/kubernetes/manifests`
+
+### cluster roles and role bindings
+ClusterRole, by contrast, is a non-namespaced resource. The resources have different names (Role and ClusterRole) because a Kubernetes object always has to be either namespaced or not namespaced; it can't be both. If you want to define a role within a namespace, use a Role; if you want to define a role cluster-wide, use a ClusterRole.
+
+the format for cluster roles and role bindings are very similar to regular roles and role bindings, you just have to change the kind to `ClusterRole` and `ClusterRoleBinding`, and know which resources are namespaces and which are not. \
+if you create a cluster role for a user to access pods, the user will be able to access all pods in all namespaces in the cluster.
+
+
 
 
 
