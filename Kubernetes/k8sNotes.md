@@ -67,7 +67,14 @@
 
 - **`kubectl config set-context $(kubectl config current-context) --namespace=dev`** (this command is used to change the default namespace)
 
-- 
+- **`kubectl config view`** (used to view the current kubeconfig file)
+```
+you can pass a --kubeconfig=my-custom-config flag to specify the specific kubeconfig you want to use
+```
+
+- **`kubectl config use-context prod-user@production`** (use this command to change the current context)
+
+- **`kubeconfig -h`** (to view other commands that can be used with this command)
 
 - **`kubectl taint nodes <node-name> key=value:taint-effect`** (this is used to apply a taint to a node to prevent pods from being placed on it)
 ```
