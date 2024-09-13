@@ -9,7 +9,7 @@
   
 - **`kubectl run --image=<image-name> <pod-name>`** (used to create a pod)
   
-- **`kubectl get nodes/pods/services/deployments/configmaps`** (checking the status of those items)
+- **`kubectl get nodes/pods/services/deployments/configmaps/roles/rolebindings`** (checking the status of those items)
 ```
      "-o wide" flag to get more options
       "--namespace=dev" or "-n dev" flag to set the namespace
@@ -499,6 +499,57 @@ the `current-context` param is used to tell kubectl the default context to use.
 the default kubeconfig file is located in `$HOME/.kube/config`
 
 for more info, check out the [Documentation](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/).
+
+
+## authorization in kubernetes
+after a user has been authenticated, he needs to have proper authorization to make API calls to the cluster. in k8s, there are multiple modes for authorization;
+- ABAC (attribute-based access control)
+- RBAC (role-based access control)
+- Node
+- WebHook
+- AlwaysAllow
+- AlwaysDeny
+you can configure which authorization mode to apply using the configuration file argument `--authorization-mode=RBAC`
+
+for more info on the authorization modes, check the [Documentation](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
+
+### RBAC (role-based access control)
+in this mode, a role is created with the appropriate permissions, and a user/s can be given that role and inherit the permissions of that role.
+
+to create a role, you make a role object `developer-role.yaml` which has the following format
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: 
+  name: developer
+rules: 
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list", "get", "create", "update", "delete"]
+  resourceNames: ["blue", "green"]
+- apiGroups: 
+  resources: ["configMap"]
+  verbs: ["create"]
+```
+use `kubectl create -f developer-role.yaml` to create the object. \
+to bind a user to a particular role, you have to create another binding object `devuser-developer-binding.yaml`
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: 
+  name: devuser-developer-binding
+subjects: 
+- kind: User
+  name: dev-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef: 
+  kind: Role
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+```
+create the role binding using the kubectl create command. 
+
+to check if you have a particular permission as a user, you can run the `kubectl auth can-i <action> <object>` command, eg `kubectl auth can-i create deployment`. you can also add the `--as dev-user` flag to check for other users.
 
 
 
