@@ -10,34 +10,46 @@
 - **`kubectl run --image=<image-name> <pod-name>`** (used to create a pod)
   
 - **`kubectl get nodes/pods/services/deployments/configmaps`** (checking the status of those items)
--     "-o wide" flag to get more options
+```
+     "-o wide" flag to get more options
       "--namespace=dev" or "-n dev" flag to set the namespace
       "--all-namespaces" or "-A" flags to check in all the namespaces
       "--selector app=App1" flag to set the selector for filtering objects
       "-o yaml > file.yaml" flag to get the yaml file for an object which can be used to make updates
+```
 
 - **`kubectl create`** (same as apply)
--     "-f filename" to specify the file you want to create. can be a pod definition file or deployment file
+```
+     "-f filename" to specify the file you want to create. can be a pod definition file or deployment file
       "deployment <deployment-name> --image=<image-name>" to create a deployment that will then create a pod
       "namespace my-namespace" to create your own namespace
+```
 
  *if you want to automatically create a yaml file using k8s, there are a few commands you could try;*
 - **`kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml`**
--     the --dry-run flag is used to tell k8s not to run the deployment
+```
+     the --dry-run flag is used to tell k8s not to run the deployment
       you can also add the --replicas=2 flag
+```
 
 - **`kubectl apply -f filename.yaml`** (create a deployment from a config file)
--     --namespace=my-namespace (using this flag creates a resource in a namespace)
+```
+     --namespace=my-namespace (using this flag creates a resource in a namespace)
       you can also add "namespace: my-namespace" in the config file under metadata
+```
 
 - **`kubectl describe pod <pod-name>`** (to show whats happening inside the pod)
 
 - **`kubectl edit`** (to edit an object)
--     deployment <deployment-name>
+```
+     deployment <deployment-name>
       KUBE_EDITOR="nano" kubectl edit (use this to change the editor to nano or anyone you want)
+```
 
 - **`kubectl logs <pod-name>`** (for checking the logs of a pod)
--     -c <container-name> (checking for container logs)
+```
+    -c <container-name> (checking for container logs)
+```
 
 - **`kubectl exec -it <pod-name> --bin/bash or sh`** (opening a terminal inside a pod)
 
@@ -55,16 +67,22 @@
 
 - **`kubectl config set-context $(kubectl config current-context) --namespace=dev`** (this command is used to change the default namespace)
 
+- 
+
 - **`kubectl taint nodes <node-name> key=value:taint-effect`** (this is used to apply a taint to a node to prevent pods from being placed on it)
--     there are 3 taint effects; NoSchedule, PreferNoSchedule, NoExecute
+```
+     there are 3 taint effects; NoSchedule, PreferNoSchedule, NoExecute
       eg; `kubectl taint nodes node01 app=blue:NoSchedule` (this will taint the node with the key-value pair "app=blue" and prevent any pod from being scheduled on it)
       tolerations for pods are added on the pod definition file (refer to documentation)
+```
 
 - **`kubectl label nodes <node-name> <key>=<value>`** (this is used to label a node to be used by a node selector)
   
 - **`kubernetes logs -f <pod-name> <container-name>`** (used to view the application logs of a particular pod)
--     if there is only one container inside the pod, you don't need to specify the container name
+```
+if there is only one container inside the pod, you don't need to specify the container name
       the "-f" flag is used to get the logs live-streamed to the output
+```
 
 - **`kubectl rollout status deployment/<deployment-name>`** (to see the status of your rollout)
 - **`kubectl rollout history deployment/<deployment-name>`** (to see the rollout history of your deployment)
@@ -441,6 +459,37 @@ note that the request field contains the CSR encoded in base64.
 once the request has been created, it can be viewed with `kubectl get csr` and approved with `kubectl certificate approve chxnedu` \
 after the certificate has been signed, you can view it with `kubectl get csr chxnedu -o yaml` and you will see the base64 encoded certificate content as part of the output. decode it and share it with the end user
 
+### kubeconfig file
+this is a file where you specify certificate paths, info about clusters, users and contexts between them so that you don't have to type it in with the kubectl command each time. An example config file is in the following format;
+```
+apiVersion: v1
+kind: Config
+current-context: my-kube-admin@my-kube-playground
+
+clusters:
+- name: my-kube-playground
+  cluster:
+    certificate-authority: /path/to/ca.crt
+    server: https://my-kube-playground:6443
+
+
+contexts:
+- name: my-kube-admin@my-kube-playground
+  context:
+    cluster: my-kube-playground
+    user: my-kube-admin
+    namespace: default
+
+users:
+- name: my-kube-admin
+  user: 
+    client-certificate: /path/to/admin.crt
+    client-key: /path/to/admin.key
+
+```
+after writing the file, you do not need to create any object for it, the kubectl will read the file as is and use it for operations. 
+the `current-context` param is used to tell kubectl the default context to use.
+the default kubeconfig file is located in `$HOME/.kube/config`
 
 
 
