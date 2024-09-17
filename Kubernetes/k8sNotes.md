@@ -562,8 +562,12 @@ the format for cluster roles and role bindings are very similar to regular roles
 if you create a cluster role for a user to access pods, the user will be able to access all pods in all namespaces in the cluster.
 
 
+# service accounts in kubernetes
+service accounts are created for bots to access our k8s clusters. to create a service account, run `kubectl create serviceaccount <account_name>` and to view the created service accounts, `kubectl get serviceaccount`. when a service account is created, a token is created to authenticate the cluster. the token is created as a secret, and to view it, describe the service account to see the name of the token object, then describe the secret.
 
+when the 3rd party service that needs to access the cluster is within the cluster itself, you don't have to copy the token anymore, you will mount it as a volume inside the pod hosting the 3rd party application. to use a service account with a pod, you have to specify the name of that service account in the pod definition file. 
 
+you can learn more about service accounts [here](https://kubernetes.io/docs/concepts/security/service-accounts/) and [here](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/).
 
 
 
