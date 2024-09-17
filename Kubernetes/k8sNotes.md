@@ -149,6 +149,7 @@ spec:
       limits:
         memory: "2Gi"
         cpu: 2
+  serviceAccountName: my-prom-account
   nodeSelector:
     size: large
   affinity:
