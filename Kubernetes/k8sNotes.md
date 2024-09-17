@@ -569,7 +569,8 @@ when the 3rd party service that needs to access the cluster is within the cluste
 
 you can learn more about service accounts [here](https://kubernetes.io/docs/concepts/security/service-accounts/) and [here](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/).
 
-
+## image security
+to authenticate to a private server to pull an image, you have to create a secret for it. Read the [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) for more info.
 
 
 
