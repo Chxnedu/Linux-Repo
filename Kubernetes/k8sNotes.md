@@ -572,5 +572,9 @@ you can learn more about service accounts [here](https://kubernetes.io/docs/conc
 ## image security
 to authenticate to a private server to pull an image, you have to create a secret for it. Read the [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) for more info.
 
+## security contexts
+to know more about security contexts in k8s, read the [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
+
+
 
 
