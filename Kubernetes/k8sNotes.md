@@ -618,4 +618,18 @@ note that some network plugins like flannel do not support network policies.
 when using network policies, for example, you want a database pod to only allow ingress traffic from an API pod. when that is specified, there is no need to specify an egress traffic section for the response, it is automatically allowed. \
 under the from parameter, there are 2 sets of rules, not 3. the `ipBlock` is one rule, and the `nameSpaceSelector` & `podSelector` are a separate rule. this acts like an OR statement as it will allow from the ipblock or the namespace and podselector together.
 
+## kubectx & kubens
+kubectx is used to easily switch between contexts. Install it using 
+```
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+```
+and use `kubectx` to list all contexts. to switch to a new context use `kubectx <context_name>` and to switch back use `kubectx -`. to see the current context use `kubectx -c`.
+
+kubens on the other hand is used to easily switch between namespaces. install it using
+```
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+```
+to switch to a new namespace use `kubens <new_namespace>` and to switch back use `kubens -`.
 
