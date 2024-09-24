@@ -575,6 +575,47 @@ to authenticate to a private server to pull an image, you have to create a secre
 ## security contexts
 to know more about security contexts in k8s, read the [Documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
 
+## network policies
+a network policy controls ingress and egress traffic between pods in a cluster. an example network policy definition file below
+```
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 172.17.0.0/16
+        except:
+        - 172.17.1.0/24
+    - namespaceSelector:
+        matchLabels:
+          project: myproject
+      podSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 6379
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/24
+    ports:
+    - protocol: TCP
+      port: 5978
 
+```
+note that some network plugins like flannel do not support network policies.
+when using network policies, for example, you want a database pod to only allow ingress traffic from an API pod. when that is specified, there is no need to specify an egress traffic section for the response, it is automatically allowed. \
+under the from parameter, there are 2 sets of rules, not 3. the `ipBlock` is one rule, and the `nameSpaceSelector` & `podSelector` are a separate rule. this acts like an OR statement as it will allow from the ipblock or the namespace and podselector together.
 
 
