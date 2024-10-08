@@ -9,7 +9,7 @@
   
 - **`kubectl run --image=<image-name> <pod-name>`** (used to create a pod)
   
-- **`kubectl get nodes/pods/services/deployments/configmaps/roles/rolebindings`** (checking the status of those items)
+- **`kubectl get nodes/pods/services/deployments/configmaps/roles/rolebindings/persistentvolume/persistentvolumeclaim`** (checking the status of those items)
 ```
      "-o wide" flag to get more options
       "--namespace=dev" or "-n dev" flag to set the namespace
@@ -136,6 +136,9 @@ spec:
     image: nginx:1.14.2
     ports:
     - containerPort: 80
+    volumeMounts:
+    - mountPath: /opt
+      name: data-volume
     env:
       - name: APP_COLOR
         value: pink
@@ -150,6 +153,11 @@ spec:
         memory: "2Gi"
         cpu: 2
   serviceAccountName: my-prom-account
+  volumes:
+  - name: data-volume
+    hostPath:
+      path: /data
+      type: Directory
   nodeSelector:
     size: large
   affinity:
@@ -632,4 +640,65 @@ sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
 sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 ```
 to switch to a new namespace use `kubens <new_namespace>` and to switch back use `kubens -`.
+
+
+# storage in kubernetes
+storage in k8s is handled using volumes. when a pod is created, a volume can be created and mounted to that pod so that the data is persisted. check the pod definition to see how to specify volumes, and check the [Documentation](https://kubernetes.io/docs/concepts/storage/volumes/) to see other options for volumes.
+
+## persistent volumes and persistent volume claims
+persistent volume (PV) in k8s is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. it is a resource in the cluster just like a node is a cluster resource.
+persistent volume claim (PVC) is a request for storage by a user. It is similar to a pod. pods consume node resources and PVCs consume PV resources. pods can request specific levels of resources (CPU and Memory). claims can request specific size and access modes.
+
+an example PV spec
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-vol1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity: 
+    storage: 1Gi
+  hostPath:
+    path: /tmp/data
+```
+you can replace the PV type with any supported option. Check out the [Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes) for more info. you can also set a reclaim policy to dictate what happens when the PVC is unbound from the pv. by default it is set to retain.
+
+an example PVC spec
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+```
+
+Once you create a PVC use it in a POD definition file by specifying the PVC Claim name under persistentVolumeClaim section in the volumes section like this:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: myfrontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: myclaim
+```
+
+
+
+
 
