@@ -672,6 +672,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: myclaim
 spec:
+  storageClassName: name #use this when using storage classes
   accessModes:
     - ReadWriteOnce
   resources:
@@ -698,7 +699,16 @@ spec:
         claimName: myclaim
 ```
 
-
+## storage class
+with storage classes, you can automatically create a volume and attach it to a pod when a persistent volume claim is made. so you don't have to create a pv each time and create a pvc for it. you can read more about it in the [Documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/).
+a sample storage class definition
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: google-storage
+provisioner: kubernetes.io/gce-pd
+```
 
 
 
