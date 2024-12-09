@@ -212,7 +212,9 @@ spec:
       port: 80
       targetPort: 9376
 ```
-ClusterIP is the default service type if you don't specify otherwise
+a service is a method for exposing a network application running as one or more Pods in your cluster. services are cluster level objects, meaning they are not bound to a particular node.
+ClusterIP is the default service type if you don't specify otherwise, and it creates a cluster level service which can only be accessed from the cluster alone. NodeIP on the ohter hand creates an IP that can also be accessed from external sources.
+
 
 ## tolerations
 these are applied to pods and allow the scheduler to schedule pods with matching taints
