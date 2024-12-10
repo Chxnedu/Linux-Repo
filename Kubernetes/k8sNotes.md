@@ -716,4 +716,121 @@ provisioner: kubernetes.io/gce-pd
 Read [Documentation](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) for more info.
 
 
+# networking in kubernetes
+
+when setting up a k8s cluster, you need to take note of all the ports that need to be open. Look at the [Documentation](https://kubernetes.io/docs/reference/networking/ports-and-protocols/) for more info.
+
+## pod networking
+
+k8s does not have a built in networking solution, it requires you to implement your own solution for networking. But k8s has its requirements for pod networking;
+
+- every pod should have an IP address
+- every pod should be able to communicate with every other pod in the same node
+- every pod should be able to communicate with every other pod on other nodes without a NAT (with the same IP)
+
+## calico cni
+
+for my testing, i went with calico. Look into the documentation [Here](https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises).
+`/opt/cni/bin` to see all the cni plugins installed
+`/etc/cni/net.d` to see the current cni plugin being used
+
+## ip address management
+
+ipam is handled by the cni plugin. so look into how calico does it.
+
+## services
+a service is a method for exposing a network application running as one or more Pods in your cluster. services are cluster level objects, meaning they are not bound to a particular node. there are different types of services;
+**ClusterIP** is the default service type, and it exposes the service internally using a clusterIP or dns name. it's for services not meant to be accessed externally, like databases.
+**NodePort** exposes the service on a static port on each node in the cluster. the port is of the range 30000-32767. can be used for simple external access, but should'nt be used much in production coz of lack of load balancing and security concerns.
+**LoadBalancer** provides a LB to expose the service to external clients. it automatically integrates with cloud provider load balancing solutions.
+services are still used in k8s to manage access to pods. look into the role of services when using cni. look into the [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) for more info.
+
+
+## ingress
+ingress is an API object that manages external access to the services in a cluster, typically HTTP. ingress may provide load balancing, SSL termination and name-based virtual hosting.
+an ingress is divided into ingress controller and ingress resource. an ingress controller needs to be running for an ingress resource to work. 
+
+### ingress controller
+there are multiple ingress controllers that can be seen [here](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/). but we will go with nginx ingress controller.
+to setup an nginx ingress controller, you need to create a couple of objects. first, a deployment;
+```
+apiVersion: apps/vl
+kind: Deployment
+metadata:
+  name: nginx-ingress-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nginx-ingress
+  template:
+    metadata:
+      labels:
+        name: nginx-ingress
+spec:
+  containers:
+    - name: nginx-ingress-controller
+      image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+  args:
+    - /nginx-ingress-controller
+    - --configmap=$(POD_NAMESPACE)/nginx-configuration
+  env:
+    - name: POD_NAME 
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+  ports:
+    - name: http
+      containerPort: 80
+    - name: https
+      containerPort: 443
+```
+
+then, a configmap to store the nginx configuration for decoupling
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configuration
+```
+
+and a service to expose the ingress controller to the external world.
+``` 
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    name: nginx-ingress
+```
+
+lastly, the ingress controller requires a service account with the correct roles and rolebingings.
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nginx-ingress-service-account
+```
+
+after all those have been created, time to create an ingress resource.
+
+### ingress resource
+an ingress resource is a set of rules and configurations applied to the ingress controller. look into the [Documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/#default-ingress-class) on how to configure an ingress resource depending on your backend.
+also look at annotations and rewrite target [Here](https://github.com/kubernetes/ingress-nginx/blob/main/docs/examples/rewrite/README.md).
+
 
