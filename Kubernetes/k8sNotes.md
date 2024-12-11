@@ -739,10 +739,10 @@ for my testing, i went with calico. Look into the documentation [Here](https://d
 ipam is handled by the cni plugin. so look into how calico does it.
 
 ## services
-a service is a method for exposing a network application running as one or more Pods in your cluster. services are cluster level objects, meaning they are not bound to a particular node. there are different types of services;
-**ClusterIP** is the default service type, and it exposes the service internally using a clusterIP or dns name. it's for services not meant to be accessed externally, like databases.
-**NodePort** exposes the service on a static port on each node in the cluster. the port is of the range 30000-32767. can be used for simple external access, but should'nt be used much in production coz of lack of load balancing and security concerns.
-**LoadBalancer** provides a LB to expose the service to external clients. it automatically integrates with cloud provider load balancing solutions.
+a service is a method for exposing a network application running as one or more Pods in your cluster. services are cluster level objects, meaning they are not bound to a particular node. there are different types of services; \
+- **ClusterIP** is the default service type, and it exposes the service internally using a clusterIP or dns name. it's for services not meant to be accessed externally, like databases.
+- **NodePort** exposes the service on a static port on each node in the cluster. the port is of the range 30000-32767. can be used for simple external access, but should'nt be used much in production coz of lack of load balancing and security concerns.
+- **LoadBalancer** provides a LB to expose the service to external clients. it automatically integrates with cloud provider load balancing solutions.
 services are still used in k8s to manage access to pods. look into the role of services when using cni. look into the [Documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) for more info.
 
 
