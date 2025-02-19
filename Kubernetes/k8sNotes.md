@@ -834,3 +834,41 @@ an ingress resource is a set of rules and configurations applied to the ingress 
 also look at annotations and rewrite target [Here](https://github.com/kubernetes/ingress-nginx/blob/main/docs/examples/rewrite/README.md).
 
 
+# designing a k8s cluster
+
+before you design a k8s cluster, you need to ask yourself a few questions;
+
+- purpose
+    - education
+    - development and testing
+    - hosting prod apps
+- cloud or onprem
+- workloads
+    - how many?
+    - what kind
+        - web
+        - big data/analytics
+    - application resource requirements
+        - cpu intensive
+        - memory intensive
+    - traffic
+        - heavy traffic
+        - burst traffic
+
+A k8s cluster can be run on your laptop, onprem physical machines, or cloud infrastructure.
+
+## k8s on your laptop or local machine
+
+k8s cannot be setup on windows natively as there are no binaries. it can be run using virtualization software though. 
+
+Minikube can be used to deploy a single node cluster easily. Kubeadm tool too can be used to provision a single node or multi node tool. Kubeadm requires the VMs to be ready, while minikube does not and will provision them itself.
+
+## high availability in k8s
+
+
+
+
+
+
+
+
