@@ -864,7 +864,15 @@ k8s cannot be setup on windows natively as there are no binaries. it can be run 
 Minikube can be used to deploy a single node cluster easily. Kubeadm tool too can be used to provision a single node or multi node tool. Kubeadm requires the VMs to be ready, while minikube does not and will provision them itself.
 
 ## high availability in k8s
+read up on high availability
 
+## installing k8s the kubeadm way
+the steps involved in setting up a cluster using the kubeadm tool include:
+- provision vm's for nodes with one designated for master and the others worker nodes
+- install a container runtime on the nodes, eg containerd
+- install kubeadm on all nodes
+- initialize the master server
+- setup the pod network and the worker nodes can join the master node
 
 
 
