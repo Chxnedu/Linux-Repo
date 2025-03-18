@@ -236,6 +236,11 @@ the `value` parameter can contain a list of values, and the `operator` parameter
 
 node affinity can be paired with taints & tolerations to ensure that pods are placed on nodes you want them to be placed on.
 
+## annotations
+annotations are key-value pairs used to attach arbitrary non-identifying metadata to objects like Pods, Services, Deployments, and more. think of annotations as sticky notes you attach to objects. they don’t change how things work, but they provide useful details for tools or people managing the cluster.
+
+unlike labels, which are used for selection and grouping, annotations are mainly used to store descriptive or configuration information that Kubernetes components or external tools can read. you can find some well know annotations [Here](https://kubernetes.io/docs/reference/labels-annotations-taints/).
+
 
 ## resource requirements and limits
 you can set the required resources a pod needs using the `resources` parameter under each container.
