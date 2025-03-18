@@ -118,7 +118,7 @@ if there is only one container inside the pod, you don't need to specify the con
 
 - **`kubectl get all --all-namespaces -o yaml > all-deploy-services.yaml`** (to save the configuration of all objects to a yaml file)
 
-- 
+- **`kubectl autoscale deployment <deployment-name> --cpu-percent=50 --min=1 --max=10`** (to implement horizontal pod autoscaling. [Docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) )
 
 # notes
 ## pod definition file template
