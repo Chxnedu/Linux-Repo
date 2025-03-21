@@ -882,7 +882,49 @@ the steps involved in setting up a cluster using the kubeadm tool include:
 - setup the pod network and the worker nodes can join the master node
 
 
+# kubernetes dashboard
 
+this is a web-based kubernetes UI interface. It can be deployed and accessed by following these steps;
+
+1. deploy the dashboard
+   ```bash
+   # make sure helm is installed
+   helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+   helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+   
+   ```
+2. Create a user
+   - create a sevice account;
+     ```yaml
+     apiVersion: v1
+     kind: ServiceAccount
+     metadata:
+       name: admin-user
+       namespace: kubernetes-dashboard
+     ```
+  - create a clusterrolebinding
+    ```yaml
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: admin-user
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+    - kind: ServiceAccount
+      name: admin-user
+      namespace: kubernetes-dashboard
+    ```
+  - get a bearer token for seviceaccount
+    ```bash
+    kubectl -n kubernetes-dashboard create token admin-user
+    ```
+3. Make the dashboard accessible
+   ```bash
+   kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+   ```
 
 
 
