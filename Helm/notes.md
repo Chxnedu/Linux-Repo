@@ -15,4 +15,13 @@ helm -h
 ## Helm CLI Commands
 
 - **`helm install <release-name> <chart>`** (to install a helm chart to your k8s cluster)
+  ```
+  -f myvalues.yaml (to use your own values file)
+  ```
+  
+- **`helm list -a`** (to list the charts running in your cluster)
+
+- **`helm uninstall <release-name>`** (to uninstall a chart)
+
+- 
 
