@@ -17,11 +17,31 @@ helm -h
 - **`helm install <release-name> <chart>`** (to install a helm chart to your k8s cluster)
   ```
   -f myvalues.yaml (to use your own values file)
+  --debug --dry-run <chart-name> (to debug a chart)
   ```
   
 - **`helm list -a`** (to list the charts running in your cluster)
 
 - **`helm uninstall <release-name>`** (to uninstall a chart)
 
+- **`helm create <chart-name>`** (to create a helm chart)
+
+- **`helm upgrade <release-name> <chart-name>`** (to upgrade a helm chart after making changes)
+
+- **`helm rollback <release-name> <revision-number>`** (to rollback to a particular revision)
+
+- **`helm template <chart-name>`** (to validate your yaml file/template locally)
+
+- **`helm lint <chart-name>`** (to find errors or misconfiguration)
+
 - 
+
+## Creating Helm Charts
+
+the first step in creating a helm chart is to run
+```bash
+helm create <chart-name>
+```
+this will create a chat directory for you
+
 
