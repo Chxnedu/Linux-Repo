@@ -19,6 +19,8 @@ helm -h
   -f myvalues.yaml (to use your own values file)
   --debug --dry-run <chart-name> (to debug a chart)
   ```
+
+- **`helm get <chart>`** (to download the chart locally)
   
 - **`helm list -a`** (to list the charts running in your cluster)
 
@@ -43,5 +45,9 @@ the first step in creating a helm chart is to run
 helm create <chart-name>
 ```
 this will create a chat directory for you
+
+after the chart is created, edit the `Chart.yaml` file and use a version number you want
+
+also go into the /template directory and make the necessary changes
 
 
