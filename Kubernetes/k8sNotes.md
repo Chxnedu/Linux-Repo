@@ -286,8 +286,10 @@ you can create and use your own scheduler asides the default scheduler. refer to
 
 
 ## monitoring and logging
-you can monitor cluster components using the kubernetes metrics server. to enable it, clone the [github](https://github.com/kubernetes-sigs/metrics-server) repo and run `kubectl create -f .` from inside the cloned repo
-
+you can monitor cluster components using the kubernetes metrics server. to enable it, run 
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
 give it a few minutes to collect the data it needs, then you can use the commands `kubectl top node` & `kubectl top pod` to check cpu and memory utilization of the pods and nodes.
 
 to view application logs from a pod in kubernetes, use the `kubernetes logs` command
