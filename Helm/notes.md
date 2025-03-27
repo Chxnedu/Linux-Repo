@@ -36,7 +36,9 @@ helm -h
 
 - **`helm lint <chart-name>`** (to find errors or misconfiguration)
 
-- 
+- **`helm repo list`** (to find repos installed on your machine)
+
+- **`helm repo add <repo-name> <repo-url>`** (to add a remote repo like bitnami to your local repository)
 
 # Creating Helm Charts
 
@@ -100,4 +102,24 @@ it is used by helmfile to install a helm chart directly from github.
 
 helmfile can also install multiple helm charts. just add another entry for a helm chart.
 
+# helm repo
+
+helm repo is a repository where we have a pre-built chart that is readily available. 
+```bash
+helm search hub <chart-name> # to search for a chart
+helm search hub <chart-name> --max-col-width=0 # to output the full url of the chart
+```
+
+# helm hooks
+
+hooks allow developers to intervene at certain points in a release's lifecycle. for example you can use hooks to; 
+- Load a ConfigMap or Secret during install before any other charts are loaded.
+- Execute a Job to back up a database before installing a new chart, and then execute a second job after the upgrade in order to restore data.
+- Run a Job before deleting a release to gracefully take a service out of rotation before removing it.
+
+there are different types of hooks; pre-install, post-install, etc. read the [Documentation](https://helm.sh/docs/topics/charts_hooks/) to find out more.
+
+# helm tests
+
+Read about helm tests [Here](https://helm.sh/docs/topics/chart_tests/)
 
