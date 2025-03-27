@@ -290,7 +290,7 @@ you can monitor cluster components using the kubernetes metrics server. to enabl
 ```bash
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
-give it a few minutes to collect the data it needs, then you can use the commands `kubectl top node` & `kubectl top pod` to check cpu and memory utilization of the pods and nodes.
+give it a few minutes to collect the data it needs, then you can use the commands `kubectl top node` & `kubectl top pod` to check cpu and memory utilization of the pods and nodes. check out the [Repo](https://github.com/kubernetes-sigs/metrics-server)
 
 to view application logs from a pod in kubernetes, use the `kubernetes logs` command
 
